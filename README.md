@@ -103,7 +103,7 @@ roman-voparquet/
 
 ```bash
 # install
-git clone https://github.com/<your-org>/roman-voparquet
+git clone https://github.com/ejoliet/roman-voparquet
 cd roman-voparquet
 uv sync                  # or: pip install -e ".[dev]"
 
