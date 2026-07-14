@@ -132,3 +132,34 @@ These were researched and source-verified on 2026-07-07. Trust them unless a sou
 1. Commit this file to the repo root as `AGENT_HANDOFF.md` (team-safe, no secrets — OK to commit).
 2. Start Iter 0.
 3. Keep this file updated: append a dated `## Session Log` entry after each working session (what changed, what broke, what's next).
+
+---
+
+## Session Log
+
+### 2026-07-14 — Full v1 implementation (Iters 0–5)
+
+**What changed** — implemented the whole tool from the README contract:
+
+- `pyproject.toml` (uv/hatchling), package skeleton, `roman-voparquet` console script.
+- `ucd_map.py` + bundled `data/roman_ucd_map.yaml` — 35-column Roman map (README's 14 + apertures, morphology, bbox, quality). Overridable via `--ucd-map` / `ROMAN_UCD_MAP_PATH`.
+- `votable_builder.py` — data-less VOTable builder (FIELDs, **no** DATA/`create_arrays`), arrow→VOTable datatype mapping (unsigned promoted, strings get `char arraysize="*"`), single table-level COOSYS with `ref` on `ra`/`dec`, optional PARAMs.
+- `datamodel.py` — best-effort `meta` extraction from Parquet KV JSON → PARAMs (filter, program, exposure_id, t_min, t_max).
+- `converter.py` — orchestration + KV merge (never clobbers existing metadata), `write_voparquet`, `validate_with_parqlint` (resolves `--stilts-jar`/`STILTS_JAR`/PATH).
+- `cli.py` (typer) — `convert` with `--dry-run`, `--validate`, `--compression`, `--include-meta`, `--coosys`, `--schema-uri`; `version`.
+- `tests/` — 40 tests (ucd map, builder, round-trip), fixture generator `make_fixture.py`.
+- `examples/`, `Makefile`, `.github/workflows/ci.yml` (pytest matrix + parqlint job with cached `topcat-extra.jar`), `.gitignore`.
+
+**Verified** — `uv run pytest` → 40 passed. `stilts parqlint` (real `topcat-extra.jar`) on a converted fixture → **exit 0, zero ERRORs, zero WARNINGs**. Negative control (corrupted VOTable) → parqlint reports ERRORs, confirming it genuinely validates. Round-trip data byte-identical; all columns preserved; unmapped `custom_note` survives with a logged warning.
+
+**Traps hit / notes**
+- astropy **8.0.1**: `CooSys(...)` does *not* take a leading `votable` positional (Field/Param/TableElement do). Fixed.
+- parqlint returns **exit 0 even when it reports ERRORs** — must grep output for `ERROR`. Both `validate_with_parqlint` and CI do this.
+- astropy normalizes some units on parse (`pix`→`pixel`); round-trip test compares UCDs strictly and units loosely for that reason.
+
+**Open Questions** — resolved for v1 with defaults (see README): no gwcs serialization (single ICRS COOSYS only), single table-level COOSYS, `--schema-uri` opt-in under `IPAC.Roman.schema_uri`. **Flag for Emmanuel** — confirm these v1 defaults are acceptable; multiband-per-band COOSYS and WCS-as-GROUP still open for v2.
+
+**Next**
+- Confirm v1 open-question defaults with Emmanuel; open v2 tickets for WCS/multiband.
+- Swap the tiny synthetic fixture for a real romancal source catalog when one is available (verify nJy units against the map).
+- TOPCAT GUI round-trip (couldn't run headless here) — confirm units/UCDs show in the column metadata pane.

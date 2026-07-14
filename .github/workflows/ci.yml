@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Sync dependencies
+        run: uv sync --extra dev
+
+      - name: Run tests
+        run: uv run pytest -q
+
+  parqlint:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync dependencies
+        run: uv sync --extra dev
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache STILTS jar
+        id: cache-stilts
+        uses: actions/cache@v4
+        with:
+          path: topcat-extra.jar
+          key: topcat-extra-jar-v1
+
+      - name: Download STILTS (topcat-extra.jar)
+        if: steps.cache-stilts.outputs.cache-hit != 'true'
+        run: curl -fL -o topcat-extra.jar https://www.star.bris.ac.uk/~mbt/topcat/topcat-extra.jar
+
+      - name: Build a VOParquet file from the fixture
+        run: |
+          uv run python tests/make_fixture.py
+          uv run roman-voparquet convert \
+            -i tests/data/tiny_source_catalog.parquet \
+            -o tests/data/tiny_source_catalog.voparquet
+
+      - name: Validate with parqlint (fail on ERROR)
+        run: |
+          set -o pipefail
+          java -jar topcat-extra.jar -stilts parqlint \
+            tests/data/tiny_source_catalog.voparquet 2>&1 | tee parqlint.log
+          if grep -q "ERROR" parqlint.log; then
+            echo "::error::parqlint reported ERROR(s)"; exit 1
+          fi

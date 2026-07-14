@@ -1,0 +1,164 @@
+# Roman WFI source-catalog column -> VO metadata map.
+#
+# Source: Roman WFI Co-add Catalog Schema (Roman-STScI-000766) and the
+# romancal source-catalog column definitions. UCDs are UCD1+ (IVOA UCDlist).
+#
+# Each entry maps a Roman column name to:
+#   ucd         UCD1+ word(s); null when no sensible UCD applies
+#   unit        VOUnit string; null / omitted for dimensionless quantities
+#   description short human-readable description
+#
+# Flux units are nJy as of romancal 0.18+ (was uJy earlier). The converter
+# always trusts the parquet/Field unit at runtime; this map is the default.
+#
+# Override at runtime with --ucd-map PATH or ROMAN_UCD_MAP_PATH.
+
+version: 1
+columns:
+  # --- identification -------------------------------------------------------
+  label:
+    ucd: meta.id;src
+    description: Source label / segmentation ID
+
+  # --- sky position ---------------------------------------------------------
+  ra:
+    ucd: pos.eq.ra;meta.main
+    unit: deg
+    description: Right ascension (ICRS)
+  dec:
+    ucd: pos.eq.dec;meta.main
+    unit: deg
+    description: Declination (ICRS)
+  ra_err:
+    ucd: stat.error;pos.eq.ra
+    unit: deg
+    description: RA uncertainty
+  dec_err:
+    ucd: stat.error;pos.eq.dec
+    unit: deg
+    description: Dec uncertainty
+
+  # --- detector-frame position ---------------------------------------------
+  x_centroid:
+    ucd: pos.cartesian.x;instr.det
+    unit: pix
+    description: X centroid in detector frame
+  y_centroid:
+    ucd: pos.cartesian.y;instr.det
+    unit: pix
+    description: Y centroid in detector frame
+  x_centroid_err:
+    ucd: stat.error;pos.cartesian.x;instr.det
+    unit: pix
+    description: X centroid uncertainty
+  y_centroid_err:
+    ucd: stat.error;pos.cartesian.y;instr.det
+    unit: pix
+    description: Y centroid uncertainty
+
+  # --- photometry (nJy since romancal 0.18) --------------------------------
+  aper_total_flux:
+    ucd: phot.flux;em.IR
+    unit: nJy
+    description: Total aperture flux
+  aper_total_flux_err:
+    ucd: stat.error;phot.flux;em.IR
+    unit: nJy
+    description: Total aperture flux error
+  aper30_flux:
+    ucd: phot.flux;em.IR
+    unit: nJy
+    description: Flux within 30% encircled-energy aperture
+  aper50_flux:
+    ucd: phot.flux;em.IR
+    unit: nJy
+    description: Flux within 50% encircled-energy aperture
+  aper70_flux:
+    ucd: phot.flux;em.IR
+    unit: nJy
+    description: Flux within 70% encircled-energy aperture
+  kron_flux:
+    ucd: phot.flux;em.IR;src.morph.type
+    unit: nJy
+    description: Kron flux
+  kron_flux_err:
+    ucd: stat.error;phot.flux;em.IR
+    unit: nJy
+    description: Kron flux error
+  kron_radius:
+    ucd: phys.angSize;src
+    unit: pix
+    description: Kron radius
+  segment_flux:
+    ucd: phot.flux;em.IR
+    unit: nJy
+    description: Segmentation flux
+  segment_flux_err:
+    ucd: stat.error;phot.flux;em.IR
+    unit: nJy
+    description: Segmentation flux error
+
+  # --- morphology / classification ------------------------------------------
+  is_extended:
+    ucd: src.class
+    description: Extended source flag
+  sharpness:
+    ucd: src.morph.param
+    description: Sharpness statistic
+  roundness:
+    ucd: src.morph.param
+    description: Roundness statistic
+  semimajor_sigma:
+    ucd: phys.angSize.smajAxis
+    unit: pix
+    description: 1-sigma semimajor axis of the source
+  semiminor_sigma:
+    ucd: phys.angSize.sminAxis
+    unit: pix
+    description: 1-sigma semiminor axis of the source
+  ellipticity:
+    ucd: src.ellipticity
+    description: Source ellipticity (1 - b/a)
+  orientation:
+    ucd: pos.posAng
+    unit: deg
+    description: Position angle of the semimajor axis
+  fluxfrac_radius_50:
+    ucd: phys.angSize;src
+    unit: pix
+    description: Radius enclosing 50% of the flux
+  cxx:
+    ucd: src.morph.param
+    unit: pix**-2
+    description: Elliptical shape parameter Cxx
+  cyy:
+    ucd: src.morph.param
+    unit: pix**-2
+    description: Elliptical shape parameter Cyy
+  cxy:
+    ucd: src.morph.param
+    unit: pix**-2
+    description: Elliptical shape parameter Cxy
+
+  # --- bounding box ---------------------------------------------------------
+  bbox_xmin:
+    ucd: pos.cartesian.x;instr.det;stat.min
+    unit: pix
+    description: Minimum X of the source bounding box
+  bbox_xmax:
+    ucd: pos.cartesian.x;instr.det;stat.max
+    unit: pix
+    description: Maximum X of the source bounding box
+  bbox_ymin:
+    ucd: pos.cartesian.y;instr.det;stat.min
+    unit: pix
+    description: Minimum Y of the source bounding box
+  bbox_ymax:
+    ucd: pos.cartesian.y;instr.det;stat.max
+    unit: pix
+    description: Maximum Y of the source bounding box
+
+  # --- quality --------------------------------------------------------------
+  warning_flags:
+    ucd: meta.code.qual
+    description: Bitwise source quality warning flags

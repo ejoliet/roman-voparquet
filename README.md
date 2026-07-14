@@ -303,9 +303,11 @@ Round-trip test invariants:
 
 ## Open Questions
 
-- [ ] Should `meta.wcs` (a `gwcs.WCS` object) be serialized to a VOTable `GROUP` or just summarized as a `<PARAM name="s_region">` (ObsCore-style polygon)?
-- [ ] For multiband catalogs, do we emit one COOSYS per band or a single one at the table level?
-- [ ] Should the converter optionally embed the original `roman_datamodels` schema URI as a custom KV pair (e.g. `IPAC.Roman.schema_uri`)?
+Resolved for **v1** with pragmatic defaults (revisit if requirements change):
+
+- **`meta.wcs` serialization** — v1 does **not** serialize the `gwcs.WCS` object. A single table-level `<COOSYS ID="ICRS" system="ICRS" epoch="J2000"/>` is emitted and `ra`/`dec` FIELDs reference it. Full WCS-as-`GROUP` and an ObsCore `s_region` polygon are deferred.
+- **Multiband COOSYS** — v1 emits a **single** table-level COOSYS (`--coosys`, default `ICRS`), not one per band.
+- **Schema URI KV pair** — supported and **off by default**. Pass `--schema-uri <uri>` to embed it under the namespaced key `IPAC.Roman.schema_uri` (non-standard keys are legal per the Note).
 
 ---
 
