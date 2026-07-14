@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+
+# Test / build artifacts
+.pytest_cache/
+*.voparquet
+tests/data/*.voparquet
+
+# Tooling
+topcat-extra.jar
+*.log
+
+# OS
+.DS_Store
