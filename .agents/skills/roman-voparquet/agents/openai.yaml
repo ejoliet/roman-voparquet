@@ -1,0 +1,6 @@
+interface:
+  display_name: "Roman Voparquet"
+  short_description: "Repo-specific patterns and workflows for roman-voparquet"
+  default_prompt: "Use the roman-voparquet repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true

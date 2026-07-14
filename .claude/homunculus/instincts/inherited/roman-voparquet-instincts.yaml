@@ -1,0 +1,356 @@
+# Instincts generated from https://github.com/ejoliet/roman-voparquet
+# Generated: 2026-07-14T21:16:53.593Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: roman-voparquet-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Commit Length
+
+## Action
+
+Keep commit messages concise (~40 characters)
+
+## Evidence
+
+- Average commit message length: 40 chars
+- Based on 1 commits
+
+---
+id: roman-voparquet-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Naming Files
+
+## Action
+
+Use snake_case naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: snake_case
+
+---
+id: roman-voparquet-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: roman-voparquet-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: roman-voparquet-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: roman-voparquet-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.ts
+
+## Evidence
+
+- File pattern: *.test.ts
+- Consistent across test files
+
+---
+id: roman-voparquet-instinct-file-naming
+trigger: "When creating a new Python file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct File Naming
+
+## Action
+
+Name the file using snake_case
+
+## Evidence
+
+- Pattern in namingConventions.files: snake_case
+
+---
+id: roman-voparquet-instinct-function-naming
+trigger: "When defining a new function in Python"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: roman-voparquet-instinct-class-naming
+trigger: "When defining a new class in Python"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: roman-voparquet-instinct-constant-naming
+trigger: "When defining a constant in Python"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: roman-voparquet-instinct-import-style
+trigger: "When importing modules within the package"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Import Style
+
+## Action
+
+Use relative imports
+
+## Evidence
+
+- Pattern in importStyle: relative
+
+---
+id: roman-voparquet-instinct-export-style
+trigger: "When exporting functions or classes from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: roman-voparquet-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Test Location
+
+## Action
+
+Place test files in the separate 'tests' folder
+
+## Evidence
+
+- Pattern in folderStructure.testLocation: separate
+- Common folder: tests
+
+---
+id: roman-voparquet-instinct-test-type
+trigger: "When writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Test Type
+
+## Action
+
+Write unit tests
+
+## Evidence
+
+- Pattern in testTypes: unit
+
+---
+id: roman-voparquet-instinct-test-pattern
+trigger: "When naming a test file"
+confidence: 0.6
+domain: testing
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Test Pattern
+
+## Action
+
+Use the '*.test.ts' file pattern
+
+## Evidence
+
+- Pattern in filePattern: *.test.ts
+
+---
+id: roman-voparquet-instinct-commit-format
+trigger: "When writing a commit message"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Commit Format
+
+## Action
+
+Use a freeform message without a required prefix
+
+## Evidence
+
+- Pattern in commits.type: freeform
+- No prefixes in commits.prefixes
+
+---
+id: roman-voparquet-instinct-commit-length
+trigger: "When composing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Commit Length
+
+## Action
+
+Keep the commit message concise (around 40 characters on average)
+
+## Evidence
+
+- Pattern in commits.averageLength: 40
+
+---
+id: roman-voparquet-instinct-ci-workflow
+trigger: "When configuring CI/CD"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ejoliet/roman-voparquet
+---
+
+# Roman Voparquet Instinct Ci Workflow
+
+## Action
+
+Place workflow configuration in '.github/workflows/ci.yml'
+
+## Evidence
+
+- Pattern in configFiles: .github/workflows/ci.yml
+
